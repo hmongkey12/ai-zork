@@ -10,10 +10,9 @@ app = Flask(__name__)
 
 
 scenarios = {
-    "scenes":["It was a warm night at Castle Caladan, and the ancient pile of stone that had served the Atreides family as home for twenty-six generations bore that cooled-sweat feeling it acquired before a change in the weather.",
-    "A long time ago in a galaxy far, far away…A NEW HOPE It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire’s ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet. Pursued by the Empire’s sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy….", 
-    "The house stood on a slight rise just on the edge of the village. It stood on its own and looked out over a broad spread of West Country farmland. Not a remarkable house by any means—it was about thirty years old, squattish, squarish, made of brick, and had four windows set in the front of a size and proportion which more or less exactly failed to please the eye."
-    ]
+    "Dune" : "It was a warm night at Castle Caladan, and the ancient pile of stone that had served the Atreides family as home for twenty-six generations bore that cooled-sweat feeling it acquired before a change in the weather.",
+    "Star Wars": "A long time ago in a galaxy far, far away…A NEW HOPE It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire’s ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet. Pursued by the Empire’s sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy….", 
+    "Hitchhikers":"The house stood on a slight rise just on the edge of the village. It stood on its own and looked out over a broad spread of West Country farmland. Not a remarkable house by any means—it was about thirty years old, squattish, squarish, made of brick, and had four windows set in the front of a size and proportion which more or less exactly failed to please the eye."
 }
 
 
@@ -26,22 +25,16 @@ def index():
 def sendScene():
     # tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     # model = GPT2LMHeadModel.from_pretrained('gpt2')
-    scene = "Hello World!"
+    scene = ""
     choice = ""
 
     if request.form.get("choice"): # if nm was assigned via the POST
         choice = request.form.get("choice") # grab the value of nm from the POST
     
-    if(choice == 'Dune'):
-        scene = scenarios["scenes"][0]
-    elif(choice == 'Star Wars'):
-        scene = scenarios["scenes"][1]
-    elif(choice == "HitchHikers"):
-        scene = scenarios["scenes"][2]
+    if(choice in scenarios.keys()):
+        scene = scenarios[choice]
     else:
-        scene = "Goodbye World!"
-
-
+        scene = "No Scene Selected"
 
 
     # scene = "West of House. You are standing in an open field west of a white house, with a boarded front door.  There is a small mailbox here."
@@ -49,10 +42,10 @@ def sendScene():
     # outputs = model.generate(inputs, max_length=200, do_sample=True)
     # text = tokenizer.decode(outputs[0], skip_special_tokens=True)
     text = scene
+    # scenariosData = text
     # scenariosData = jsonify({"newScene": text})
-    scenariosData = json.dumps({"newScene": text})
-    # return redirect(url_for("getresults", results2 = text))
-    return redirect(url_for("getresults", results2 = scenariosData))
+    return redirect(url_for("getresults", text = text))
+    # return redirect(url_for("getresults", results2 = scenariosData))
 
 # def sendGenre():
     # movie_File = 'movies.xls'
@@ -66,9 +59,12 @@ def sendScene():
     # #return json.dumps(movies.groupby(by='Genres')) #.to_json(orient = 'columns')   
     #  #movies1 = pd.read_excel(movie_File, sheet_name=0, index_col= 0, usecols=['Genres'])
 
-@app.route("/results/<results2>")
-def getresults(results2):
-    return render_template('results.html', results3 = results2)
+@app.route("/results/<text>")
+def getresults(text):
+    # produce_list = [{"Name": "Potato", "Type": "Vegetable"}, {"Name": "Cherry", "Type": "Fruit"}]
+    
+    return render_template('results.html', results3 = text)
+    # return render_template('results.html', results3 = produce_list)
 
 
 def main():

@@ -5,7 +5,7 @@
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import json 
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 
 app = Flask(__name__)#boilerplate, needed for flask to work
 app.secret_key = "Secret Key" #secret key is needed for flask session to work, its a boilerplate
@@ -20,6 +20,11 @@ scenarios = {
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/scenarios")
+def showscenarios():
+    if request.method == 'GET':
+        return jsonify(scenarios)
 
 @app.route("/input", methods = ["POST"])
 def sendScene():

@@ -5,8 +5,9 @@
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import json 
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import Flask, render_template, redirect, url_for, request, session
 app = Flask(__name__)
+app.secret_key = "Secret Key"
 
 
 scenarios = {
@@ -27,57 +28,43 @@ def sendScene():
     # model = GPT2LMHeadModel.from_pretrained('gpt2')
     scene = ""
     choice = ""
+    username = ""
+    text = []
 
     if request.form.get("choice"): # if nm was assigned via the POST
         choice = request.form.get("choice") # grab the value of nm from the POST
+    if request.form.get("username"):
+        username = request.form.get("username")
     
-    if(choice in scenarios.keys()):
+    if (choice in scenarios.keys()):
         scene = scenarios[choice]
     else:
         scene = "No Scene Selected"
 
+    if username in session:
+        sessionData = session[username]
+        sessionData.append(scene)
+        session[username] = sessionData
+        text = session[username]
+    else:
+        session[username] = []
 
     # scene = "West of House. You are standing in an open field west of a white house, with a boarded front door.  There is a small mailbox here."
     # inputs = tokenizer.encode(scene, return_tensors='pt')
     # outputs = model.generate(inputs, max_length=200, do_sample=True)
     # text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    text = scene
+    
     # scenariosData = text
     # scenariosData = jsonify({"newScene": text})
     return redirect(url_for("getresults", text = text))
-    # return redirect(url_for("getresults", results2 = scenariosData))
 
-# def sendGenre():
-    # movie_File = 'movies.xls'
-    # movies1 = pd.read_excel(movie_File, sheet_name=0, index_col= 0, usecols=['Title', 'Year', 'Genres', 'Language', 'Content Rating', 'Duration', 'Budget', 'Actor 1', 'Actor 2', 'Actor 3', 'IMDB Score'])
-    # movies2 = pd.read_excel(movie_File, sheet_name=1, index_col= 0, usecols=['Title', 'Year', 'Genres', 'Language', 'Content Rating', 'Duration', 'Budget', 'Actor 1', 'Actor 2', 'Actor 3', 'IMDB Score'])
-    # movies3 = pd.read_excel(movie_File, sheet_name=2, index_col= 0, usecols=['Title', 'Year', 'Genres', 'Language', 'Content Rating', 'Duration', 'Budget', 'Actor 1', 'Actor 2', 'Actor 3', 'IMDB Score'])
-    # movies = pd.concat([movies1, movies2, movies3])
-    # #takes panda dataframe and searches by genre, then converts to json objects organized by column
-    # results1 = json.loads(movies.query("Genres== 'Action'").to_json(orient='columns'))
-    # return redirect(url_for("getresults", results2 = results1))
-    # #return json.dumps(movies.groupby(by='Genres')) #.to_json(orient = 'columns')   
-    #  #movies1 = pd.read_excel(movie_File, sheet_name=0, index_col= 0, usecols=['Genres'])
+
 
 @app.route("/results/<text>")
 def getresults(text):
     # produce_list = [{"Name": "Potato", "Type": "Vegetable"}, {"Name": "Cherry", "Type": "Fruit"}]
-    
     return render_template('results.html', results3 = text)
     # return render_template('results.html', results3 = produce_list)
 
-
-def main():
-    #import movie spreasheet
-    movie_File = 'movies.xls'
-    #create a dataframe and read moviefile and all sheets in
-    # make Title column the index w/ index_col 0
-    #multiple sheets added at once create a dict
-    #reduce the number of columns to only those used by the app
-    movies = pd.read_excel(movie_File, sheet_name=['1900s', '2000s', '2010s'], index_col= 0, usecols=['Title', 'Year', 'Genres', 'Language', 'Content Rating', 'Duration', 'Budget', 'Actor 1', 'Actor 2', 'Actor 3', 'IMDB Score'])
-    #test print of movies dict
-    print(movies)
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=2224)
-    #main()

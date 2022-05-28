@@ -6,10 +6,6 @@ The **Enter Your Name** will be used as a session id to store the session data.
 The **What do you want to do in the scene?** will be used to add the user defined action.
 
 
-
-
-![Screen Shot 2022-05-27 at 3 46 25 PM](https://user-images.githubusercontent.com/9085803/170797729-dbfd8dcc-e936-4b09-b42c-fdd3d60bcbc2.png)
-
 ![Screen Shot 2022-05-27 at 5 05 13 PM](https://user-images.githubusercontent.com/9085803/170801763-9776a6f5-55dd-4a15-a41f-e599b78ae3c6.png)
 
 The results will be the excerpt from the starting scene and generated text from the AI.

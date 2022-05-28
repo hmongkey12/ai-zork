@@ -1,14 +1,14 @@
 # AI-ZORK
 Python app utilizing flask and Jinja to display text
 
-The **Choose Starting Scenes** are Dune, Star Wars, and Hitchhikers.
-The **Enter Your Name** will be used as a session id to store the session data.
-The **What do you want to do in the scene?** will be used to add the user defined action.
+> The **Choose Starting Scenes** are Dune, Star Wars, and Hitchhikers.
+> The **Enter Your Name** will be used as a session id to store the session data.
+> The **What do you want to do in the scene?** will be used to add the user defined action.
 
 
 ![Screen Shot 2022-05-27 at 5 05 13 PM](https://user-images.githubusercontent.com/9085803/170801763-9776a6f5-55dd-4a15-a41f-e599b78ae3c6.png)
 
-The results will be the excerpt from the starting scene and generated text from the AI.
+> The results will be the excerpt from the starting scene and generated text from the AI.
 
 ![Screen Shot 2022-05-27 at 5 06 31 PM](https://user-images.githubusercontent.com/9085803/170801747-c4728f1d-c990-49aa-b4fc-c8fc8b146c01.png)
 

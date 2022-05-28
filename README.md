@@ -1,6 +1,10 @@
 # AI-ZORK
 Python app utilizing flask and Jinja to display text
 
+
+
+**It generally takes about 2 mins, since the models have to be downloaded each time the program runs, and the model has to perform tokenization.**
+
 ## Usage
 > The **Choose Starting Scenes** are Dune, Star Wars, and Hitchhikers.
 > The **Enter Your Name** will be used as a session id to store the session data.
@@ -27,6 +31,4 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 ```
 pip install transformers
 ```
-
-It generally takes about 2 mins, since the models have to be downloaded each time the program runs, and the model has to perform tokenization.
 
